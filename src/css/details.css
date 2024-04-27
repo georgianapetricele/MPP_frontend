@@ -1,0 +1,40 @@
+.detailsContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: rgb(249, 244, 237);
+}
+
+.detailsContent {
+    width: 40%;
+    height: 40%;
+    background-color: rgb(254, 235, 212);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.detailsHeader {
+    background-color: rgb(215, 167, 105);
+    padding: 30px;
+    font-size: 30px;
+    font-weight: bold;
+    border-collapse: collapse; 
+}
+
+.detailsBody {
+    padding: 20px;
+}
+
+.detailsItem {
+    margin-bottom: 10px;
+}
+
+.detailsLabel {
+    font-weight: bold;
+    font-size: 25px;
+}
+
+.detailsText {
+    font-size: 25px;
+}
