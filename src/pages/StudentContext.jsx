@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState, useContext } from "react";
-
 const StudentContext = React.createContext({
     students: [],
     setStudents: () => {}
@@ -8,7 +7,6 @@ const StudentContext = React.createContext({
 
 export const StudentProvider = ({ children }) => {
     const [students, setStudents] = React.useState([]);
-    const [studentToEdit, setStudentToEdit] = React.useState(null);
 
     useEffect(() => {
         fetchStudents();
@@ -80,19 +78,26 @@ export const StudentProvider = ({ children }) => {
                 //console.error('Error adding student:', error);
                 console.log(newStudent);
                 saveToLocal([...students, newStudent]);
+                console.log('Students:', students);
                 fetchLocalData();
             });
     };
 
-    const handleEdit = (updatedStudent) => {
-        console.log('Student to edit:', studentToEdit);
-        axios.put(`http://localhost:8080/students/${studentToEdit.id}`, updatedStudent)
+    const handleEdit = (studentId, updatedStudent) => {
+        axios.put(`http://localhost:8080/students/${studentId}`, updatedStudent)
             .then(() => {
                 fetchStudents(); 
-                setStudentToEdit(null);
             })
             .catch(error => {
-                console.error('Error updating student:', error);
+                console.log(studentId, updatedStudent);
+                const updatedStudents = students.map(student => {
+                    if (student.id === studentId) {
+                        return { ...student, ...updatedStudent };
+                    }
+                    return student;
+                });
+                setStudents(updatedStudents);
+                saveToLocal(updatedStudents);
             });
     };
     
@@ -104,11 +109,13 @@ export const StudentProvider = ({ children }) => {
             })
             .catch(error => {
                 console.error('Error deleting student:', error);
+                saveToLocal(students.filter(student => student.id !== studentId));
+                fetchLocalData();
             });
     };
 
     return(
-        <StudentContext.Provider value={{students, setStudents, handleSubmit, handleEdit, handleDelete, setStudentToEdit}}>
+        <StudentContext.Provider value={{students, setStudents, handleSubmit, handleEdit, handleDelete}}>
             {children}
         </StudentContext.Provider>
     )

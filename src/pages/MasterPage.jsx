@@ -11,10 +11,11 @@ import StudentContext from "./StudentContext";
 const STUDENTS_PER_PAGE = 3;
 
 const MasterPage = () => {
-    const { students, studentToEdit, setStudentToEdit, handleSubmit, handleEdit, handleDelete } = useContext(StudentContext);
+    const { students, handleSubmit, handleEdit, handleDelete } = useContext(StudentContext);
     const [currentPage, setCurrentPage] = useState(0);
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
+    const [studentToEdit, setStudentToEdit] = useState(null);
 
     const handlePageChange = ({ selected }) => {
         setCurrentPage(selected);
@@ -39,9 +40,9 @@ const MasterPage = () => {
                     {paginatedStudents.map((student,index) => (
                         <tr key={student.id}>
                             <td>
-                                {/* <Link to={`/${student.id}`} className="link">
+                                <Link to={`/${student.id}`} className="link">
                                     {student.name}
-                                </Link> */}
+                                </Link>
                             </td>
                             <td>{student.age}</td>
                             <td>
@@ -85,6 +86,7 @@ const MasterPage = () => {
                     }}
                     onSubmit={handleEdit}
                     defaultValue={studentToEdit}
+                    studentId={studentToEdit.id}
                 />
             )}
             {modalAddOpen && (
