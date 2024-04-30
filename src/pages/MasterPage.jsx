@@ -6,67 +6,74 @@ import { ModalFilter } from "./ModalFilter.jsx";
 import "../css/master.css";
 import ReactPaginate from 'react-paginate';
 import axios from "axios";
-import StudentContext from "./StudentContext";
+import Context from "./Context.jsx";
 
-const STUDENTS_PER_PAGE = 3;
 
 const MasterPage = () => {
-    const { students, handleSubmit, handleEdit, handleDelete } = useContext(StudentContext);
-    const [currentPage, setCurrentPage] = useState(0);
+    const { users, handleSubmit, handleEdit, handleDelete,currentPage,setCurrentPage,totalPages } = useContext(Context);
     const [modalAddOpen, setModalAddOpen] = useState(false);
     const [modalEditOpen, setModalEditOpen] = useState(false);
-    const [studentToEdit, setStudentToEdit] = useState(null);
+    const [userToEdit, setUserToEdit] = useState(null);
 
-    const handlePageChange = ({ selected }) => {
-        setCurrentPage(selected);
-    };
-
-    const startIndex = currentPage * STUDENTS_PER_PAGE;
-    const endIndex = (currentPage + 1) * STUDENTS_PER_PAGE;
-    const paginatedStudents = students.slice(startIndex, endIndex);
+    const handlePrevPage = () => {
+        setCurrentPage(currentPage - 1); // Decrement currentPage
+      };
+    
+      // Function to handle click event for next page button
+      const handleNextPage = () => {
+        setCurrentPage(currentPage + 1); // Increment currentPage
+      }; 
 
     return (
         <div className="centerContainer">
-            <h1>Students List</h1>
+            <h1>Users List</h1>
             <table className="table">
                 <thead>
                     <tr>
-                        <th>Name</th>
-                        <th>Age</th>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Students Count</th>
                         <th colSpan={2}>Options</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {paginatedStudents.map((student,index) => (
-                        <tr key={student.id}>
+                    {users.map((user,index) => (
+                        <tr key={user.userId}>
                             <td>
-                                <Link to={`/${student.id}`} className="link">
-                                    {student.name}
-                                </Link>
+                            <Link to={`/${user.userId}`} className="link">
+                                {user.username}
+                            </Link>
                             </td>
-                            <td>{student.age}</td>
+                            <td>{user.email}</td>
+                            <td>{user.nrStudents}</td>
                             <td>
                                 <button className="btn" onClick={() => {
                                     setModalEditOpen(true);
-                                    setStudentToEdit(student);
+                                    setUserToEdit(user);
                                 }}>Update</button>
                             </td>
                             <td>
-                                <button className="btn" onClick={() => handleDelete(student.id)}>Delete</button>
+                                <button className="btn" onClick={() => handleDelete(user.userId)}>Delete</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
 
-            <ReactPaginate
-                pageCount={Math.ceil(students.length / STUDENTS_PER_PAGE)}
-                pageRangeDisplayed={3}
-                marginPagesDisplayed={1}
-                onPageChange={handlePageChange}
-                containerClassName={'pagination'}
-                activeClassName={'active'}
-            />
+            <div>
+            {/* Previous page button */}
+            <button onClick={handlePrevPage} disabled={currentPage === 1}>
+            Previous
+            </button>
+
+            {/* Display current page and total pages */}
+            <span>Page {currentPage} of {totalPages}</span>
+
+            {/* Next page button */}
+            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+            Next
+            </button>
+        </div>
             
             <table>
                 <tbody>
@@ -82,11 +89,11 @@ const MasterPage = () => {
                 <ModalEdit
                     closeModal={() => {
                         setModalEditOpen(false);
-                        setStudentToEdit(null);
+                        setUserToEdit(null);
                     }}
                     onSubmit={handleEdit}
-                    defaultValue={studentToEdit}
-                    studentId={studentToEdit.id}
+                    defaultValue={userToEdit}
+                    userId={userToEdit.userId}
                 />
             )}
             {modalAddOpen && (

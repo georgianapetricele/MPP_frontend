@@ -1,16 +1,17 @@
 import "../css/modal.css";
 import { useState } from "react";
 
-export const ModalEdit = ({ closeModal, onSubmit, defaultValue, userId }) => {
+export const ModalEditStudent = ({ closeModal, onSubmit, defaultValue, studentId }) => {
     const [formState, setFormState] = useState(defaultValue || {
-        username: "",
-        email: "",
+        name: "",
+        age: "",
+        major: "",
     });
 
     const [errors, setErrors] = useState("");
 
     const validateForm = (e) => {
-        if (formState.username && formState.email) {
+        if (formState.name && formState.age && formState.major) {
             setErrors("");
             return true;
         } else {
@@ -36,7 +37,7 @@ export const ModalEdit = ({ closeModal, onSubmit, defaultValue, userId }) => {
     const handleSubmit = (e) => {
         e.preventDefault();
         if (!validateForm()) return;
-        onSubmit(userId, formState);
+        onSubmit(studentId, formState);
         closeModal();
     }
 
@@ -48,13 +49,16 @@ export const ModalEdit = ({ closeModal, onSubmit, defaultValue, userId }) => {
             <div className="modal">
                 <form>
                     <div className="form-group">
-                        <label htmlFor="username">Username:</label>
-                        <input type="text" id="username" name="username" value={formState.username} onChange={handleChange} />
+                        <label htmlFor="name">Name:</label>
+                        <input type="text" id="name" name="name" value={formState.name} onChange={handleChange} />
                     </div>
-                 
                     <div className="form-group">
-                        <label htmlFor="email">Email:</label>
-                        <input type="text" id="email" name="email" value={formState.email} onChange={handleChange} />
+                        <label htmlFor="age">Age:</label>
+                        <input type="text" id="age" name="age" value={formState.age} onChange={handleChange} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="major">Major:</label>
+                        <input type="text" id="major" name="major" value={formState.major} onChange={handleChange} />
                     </div>
                     {/* {errors && <div className="error">{`Please include: ${errors}`}</div>} */}
                     <div className="form-group">
