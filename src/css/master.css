@@ -17,6 +17,27 @@ h1 {
   margin-bottom: 0px;
 }
 
+.pag{
+  margin-bottom: 20px;
+}
+
+.pagBtn{
+  border: none;
+    box-shadow: 0 5px 7px rgba(0, 0, 0, 0.2); 
+    padding: 0.2 ;
+    border-radius: 10px;
+    width: 150px;
+    font-size: 22px;
+    margin-left: 20px;
+    margin-right: 20px;
+    cursor: pointer;
+    background-color: burlywood;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    overflow: 'hidden'
+
+}
+
 .table {
     width: 45%; 
     height:60%;
@@ -29,7 +50,7 @@ h1 {
   }
   
   .table th, .table td {
-    padding: 40px; 
+    padding: 20px; 
     text-align: left; 
   }
   

@@ -36,7 +36,7 @@ const StudentsPage = () => {
     
     const fetchStudents = () => {
         syncLocalDataStudents(); 
-        axios.get(`http://localhost:8080/users/page/${userId}/${currentPage}`)
+        axios.get(`http://localhost:8080/students/page/${userId}/${currentPage}`)
             .then(response => {
                 const serverStudents = response.data;
                 setStudents(serverStudents);
@@ -220,4 +220,3 @@ const StudentsPage = () => {
 };
 
 export default StudentsPage;
-

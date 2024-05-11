@@ -15,6 +15,8 @@ const MasterPage = () => {
     const [modalEditOpen, setModalEditOpen] = useState(false);
     const [userToEdit, setUserToEdit] = useState(null);
 
+    console.log('users:', users );
+
     const handlePrevPage = () => {
         setCurrentPage(currentPage - 1); // Decrement currentPage
       };
@@ -37,7 +39,9 @@ const MasterPage = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user,index) => (
+                    {
+              
+                    users.map((user,index) => (
                         <tr key={user.userId}>
                             <td>
                             <Link to={`/${user.userId}`} className="link">
@@ -60,9 +64,9 @@ const MasterPage = () => {
                 </tbody>
             </table>
 
-            <div>
+            <div className="pag">
             {/* Previous page button */}
-            <button onClick={handlePrevPage} disabled={currentPage === 1}>
+            <button className="pagBtn" onClick={handlePrevPage} disabled={currentPage === 1}>
             Previous
             </button>
 
@@ -70,7 +74,7 @@ const MasterPage = () => {
             <span>Page {currentPage} of {totalPages}</span>
 
             {/* Next page button */}
-            <button onClick={handleNextPage} disabled={currentPage === totalPages}>
+            <button className="pagBtn" onClick={handleNextPage} disabled={currentPage === totalPages}>
             Next
             </button>
         </div>

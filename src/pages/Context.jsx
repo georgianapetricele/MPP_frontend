@@ -14,15 +14,15 @@ const Context = React.createContext({
 export const Provider = ({ children }) => {
     const [users, setUsers] = React.useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const [totalPages, setTotalPages] = useState(5000);
+    const [totalPages, setTotalPages] = useState(2000);
 
     useEffect(() => {
         fetchUsers();
-    }, [currentPage]);
+    }, [users,currentPage]);
 
 
     const fetchUsers = () => {
-        console.log("Here");
+        console.log("Here ",currentPage);
         syncLocalData(); // Synchronize local data before fetching from server
         axios.get(`http://localhost:8080/users/page/${currentPage}`)
             .then(response => {
@@ -30,6 +30,7 @@ export const Provider = ({ children }) => {
                 setUsers(serverUsers);
             })
             .catch(error => {
+                console.log('Users',users);
                 console.error('Error fetching users:', error);
                 alert('Failed to fetch users from the server. Fetching local data...');
                 fetchLocalData();
